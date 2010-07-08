@@ -161,6 +161,18 @@ function luncheon_get_meal_and_id_by_date($chosenDate){
   return $items;
 }
 
+function luncheon_get_meal_description_by_date($chosenDate){
+  global $wpdb, $luncheon_db_date_format;
+  $sql = "SELECT meals.description FROM " . luncheon_dbtblname_offerings() . 
+    " AS offerings, " . luncheon_dbtblname_meals() . 
+    " AS meals WHERE (offerings.menu_date = '" . date($luncheon_db_date_format, $chosenDate) . "') AND (offerings.meal_id = meals.id)";
+  $items = $wpdb->get_results($sql, ARRAY_A);
+  if (is_null($items)){
+    return array();
+  }
+  return $items;
+}
+
 // Return hashed array of all meals for the specified week and year
 function luncheon_get_meals_for_year_and_week($selectedYear, $selectedWeek){
   global $wpdb, $luncheon_db_date_format;
@@ -176,6 +188,27 @@ function luncheon_get_meals_for_year_and_week($selectedYear, $selectedWeek){
     $day_data['dbdate'] = date($luncheon_db_date_format,$current_date);
     $day_data['header'] = luncheon_format_date($current_date);
     $day_data['meals'] = luncheon_get_meal_and_id_by_date($day_data['date']);
+    
+    $weekdays[$day_index] = $day_data;
+  }
+  return $weekdays;
+}
+
+// Return hashed array of all meals for the specified week and year (lite version, for web-page)
+function luncheon_get_meals_for_year_and_week_lite($selectedYear, $selectedWeek){
+  global $wpdb, $luncheon_db_date_format;
+  
+  //since we add from week 1 and weeks are zero-based in php, we subtract with 1
+  $weekTerm = $selectedWeek - 1;
+  $startdate = strtotime("Monday +$weekTerm week $selectedYear", strtotime("1 January $selectedYear")); 
+  $weekdays = array();
+  for ($day_index = 0; $day_index < 7; $day_index++)
+  {
+    $current_date = strtotime("+$day_index days", $startdate);
+    $day_data['date'] = $current_date;
+    $day_data['dbdate'] = date($luncheon_db_date_format,$current_date);
+    $day_data['header'] = luncheon_format_date($current_date);
+    $day_data['meals'] = luncheon_get_meal_description_by_date($day_data['date']);
     
     $weekdays[$day_index] = $day_data;
   }

@@ -287,7 +287,7 @@ function luncheon_admin_index(){
 		</form>
     </div>
     
-  <a href="/veckans_meny/?menu_year=<?php echo $selectedYear ?>&menu_week=<?php echo $selectedWeek ?>" target="_blank"><img src="<?php luncheon_printImageURL(); ?>printer.png"/> Skriv ut denna veckas meny</a><br/>
+  <a href="<?php echo get_bloginfo('url') ?>/veckans_meny/?menu_year=<?php echo $selectedYear ?>&menu_week=<?php echo $selectedWeek ?>" target="_blank"><img src="<?php luncheon_printImageURL(); ?>printer.png"/> Skriv ut denna veckas meny</a><br/>
   
   For support visit <a href="http://palbrattberg.com/luncheon/">http://palbrattberg.com/luncheon/</a></div><?php 
 }

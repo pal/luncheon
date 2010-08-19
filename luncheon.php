@@ -43,7 +43,7 @@ function luncheon_printImageURL() {
   echo luncheon_getImageURL();
 }
 function luncheon_format_date($myDate) {
-  return ucwords(strftime("%A", $myDate)) . 
+  return ucwords(htmlentities(strftime("%A", $myDate))) . 
         "en den " . strftime("%d", $myDate) . " " . 
         ucwords(strftime("%B", $myDate)) . " " . 
         strftime("%Y", $myDate);
@@ -293,8 +293,6 @@ function luncheon_admin_index(){
 }
 
 
-
-
 // Add menu items to Wordpress Admin
 function luncheon_setup_adminmenu() {
     wp_enqueue_script('jquery');
@@ -350,11 +348,9 @@ function luncheon_css() {
 }
 add_action('admin_menu', 'luncheon_setup_adminmenu');
 add_action('admin_head', 'luncheon_css');
- 
 
 // Make sure do proper install on activation
 register_activation_hook(__FILE__, 'luncheon_db_install');
-
 
 // Send requests for AJAX-backend through normal WP mechanisms
 // thx to http://willnorris.com/2009/06/wordpress-plugin-pet-peeve-2-direct-calls-to-plugin-files

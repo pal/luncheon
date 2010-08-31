@@ -44,9 +44,9 @@ function luncheon_printImageURL() {
 }
 function luncheon_format_date($myDate) {
   return ucwords(htmlentities(strftime("%A", $myDate))) . 
-        "en den " . strftime("%d", $myDate) . " " . 
-        ucwords(strftime("%B", $myDate)) . " " . 
-        strftime("%Y", $myDate);
+        "en den " . htmlentities(strftime("%d", $myDate)) . " " . 
+        htmlentities(ucwords(strftime("%B", $myDate))) . " " . 
+        htmlentities(strftime("%Y", $myDate));
 }
 
 function luncheon_dbtblname_meals() {
